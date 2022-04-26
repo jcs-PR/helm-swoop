@@ -28,7 +28,7 @@ GIT_HOOKS    := pre-commit
 
 ##################################################
 
-.PHONY: all help build test clean
+.PHONY: all help compile build test clean
 
 all: help
 
@@ -48,21 +48,16 @@ help:
 	$(info See https://github.com/$(REPO_USER)/$(REPO_NAME)#contribution)
 	$(info )
 
-##############################
+compile:
+	eask compile
 
-%.elc: %.el .cask
-	cask exec $(EMACS) -Q --batch -f batch-byte-compile $<
+build:
+	eask pacakge
+	eask install
 
-.cask: Cask
-	cask install
-	touch $@
-
-##############################
-
-build: $(ELS:%.el=%.elc)
-
-test: build
-	cask exec buttercup -L .
+test:
+	eask install-deps --dev
+	eask buttercup helm-swoop.el
 
 clean:
-	rm -rf $(ELS:%.el=%.elc) .cask
+	eask clean-all
