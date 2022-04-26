@@ -57,7 +57,7 @@ build:
 
 test:
 	eask install-deps --dev
-	eask buttercup helm-swoop.el
+	eask buttercup
 
 clean:
 	eask clean-all
